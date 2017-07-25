@@ -4,7 +4,7 @@
     "pluginsConfig": {
             "edit-link": {
                 "base": 
-"https://github.com/flexiblepower/fpai-documentation/edit/development/",
+"https://ci.tno.nl/gitlab/FAN/def-pi-documentation/blob/master/",
                 "label": "Edit This Page"
             }
     }
