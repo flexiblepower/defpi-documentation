@@ -1,3 +1,0 @@
-# Developing an App
-
-TODO
