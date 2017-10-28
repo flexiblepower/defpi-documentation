@@ -16,9 +16,7 @@
   * [Java tutorial](developing-a-service/java-tutorial.md)
   * [Python tutorial](developing-a-service/python-tutorial.md)
 * [Contributing to dEF-Pi](contributing-to-def-pi.md)
-  * Building dEF-Pi
+  * [Building dEF-Pi](contributing-to-def-pi/building-def-pi.md)
   * [Repository overview](contributing-to-def-pi/repository-overview.md)
 * [Glossary](Glossary.md)
-
-
 
