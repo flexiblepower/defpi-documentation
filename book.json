@@ -7,7 +7,7 @@
             "label": "Edit This Page"
          },
          "image-captions": {
-             "caption": "Image _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_"
+             "caption": "Figure _PAGE_LEVEL_._PAGE_IMAGE_NUMBER_ - _CAPTION_"
          }
      }
 }
