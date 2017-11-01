@@ -8,7 +8,7 @@
   * [Build and deploy tools](architecture/build-and-deploy-tools.md)
   * [User interface](architecture/user-interface.md)
 * [Getting dEF-Pi up and running](getting-def-pi-up-and-running.md)
-  * [Running dEF-Pi on Linux](getting-def-pi-up-and-running/running-def-pi-on-linux.md)
+  * [Running dEF-Pi on a local Linux machine](getting-def-pi-up-and-running/running-def-pi-on-linux.md)
   * [Create a cluster](getting-def-pi-up-and-running/create-a-cluster.md)
   * [Create a demo environment](getting-def-pi-up-and-running/create-a-demo-environment.md)
 * [Developing a Service](developing-a-service.md)
