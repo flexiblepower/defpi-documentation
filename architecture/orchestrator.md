@@ -6,11 +6,20 @@ The orchestrator is able to deploy services on a cluster of hosts. Either the us
 
 The orchestrator is the only component that can initiate connections between services. This way the orchestrator is able to verify whether or not services should communicate with each other, by determining the compatibility of interfaces implemented by services. For example, when the interfaces don't match or when the cardinality will be violated no connection is created. Via the web-based user interface, end-users are able to specify connections by selecting the correct processes and interfaces to be connected. 
 
-\(TODO: life-cylce management\)
+The orchestrator manages the lifecycle of processes deployed on the dEF-Pi environment, providing the ability to: create, update, move, and terminate processes. Also, the management of connections between processes is part of the lifecycle management. 
 
-\(TODO: Pending changes\)
+In order to robustly apply changes to running processes _Pending changes_ are introduced. As communication between the orchestrator and processes can't always be assured, pending changes are placed in a queue. This allows the possibility to reapply a change in case it has not been executed correctly by a process. 
 
-\(TODO: User environments, private vs public nodes\)
+As dEF-Pi is a distributed platform, the Orchestator has to manage nodes in its environment. Nodes are categorised in one of three categories:
+* **Unidentified nodes**: nodes that are added to the environment, but have not been setup correctly. Therefore, these nodes can't be used to deploy processes on.
+* **Public nodes**: nodes that are put in a public node pool, available for all users in the environment to deploy processes on.
+* **Private nodes**: nodes tied to a single user, only available for that user to deploy processes on.
+
+Each user in the dEF-Pi environment has its own user environment. Such user environment consists out of:
+* The public nodes in the dEF-Pi environment.
+* The private nodes tied to the user.
+* The processes deployed by the user.
+* The connections between processes of the user.
 
 ## Overview
 

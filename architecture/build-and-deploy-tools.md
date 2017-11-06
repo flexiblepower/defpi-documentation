@@ -38,4 +38,4 @@ An example of such service description is as follows:
 
 This describes a simple echo service that uses the interface described by the contents of the Protocol Buffer [file](https://pastebin.com/raw/FyBHi5KA). In [Developing a Service](../developing-a-service.md) the complete explaination can be found on how to use the service description.
 
-Besides the code generation, dEF-Pi also provides deploy tools to easily deploy a test environment via docker-compose. Making sure that all dependencies are deployed and configured correctly. More information on the deploy tools can be found in [Getting dEF-Pi up and running](../getting-def-pi-up-and-running.html). 
+Besides the code generation, dEF-Pi also provides deploy tools to easily deploy a test environment via docker-compose. Making sure that all dependencies are deployed and configured correctly. More information on the deploy tools can be found in [Getting dEF-Pi up and running](../getting-def-pi-up-and-running.md). 

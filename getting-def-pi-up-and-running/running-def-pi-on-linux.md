@@ -1,5 +1,7 @@
 # Running dEF-Pi on a local Linux machine
 
+This tutorial gives the opportunity to create a local dEF-Pi environment running on a single Linux machine.
+
 ## Step 1: Installing Docker
 
 DEF-Pi runs on the Linux versions of Docker. Both the community edition as well as the enterprise edition are supported, from version 17.03 and upwards.

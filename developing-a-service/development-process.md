@@ -36,7 +36,6 @@ Creating a service begins with describing interfaces in the Service Descriptions
     }
   ]
 }
-
 ```
 
 The supported fields for services are:
