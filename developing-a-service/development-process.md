@@ -43,7 +43,7 @@ The supported fields in describing an interface version are:
 | Field | Values | Description |
 |:---:|:---:|---|
 | _versionName_ | String | The version descriptor of the interface |
-| _type_ | String (`proto`\|`xsd`) | The format in which the interface messages are defined - As [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) or as [XML Schema Definition](https://www.w3schools.com/xml/schema_intro.asp)|
+| _type_ | String (`proto` \| `xsd`) | The format in which the interface messages are defined - As [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) or as [XML Schema Definition](https://www.w3schools.com/xml/schema_intro.asp)|
 | _location_ | String | The name of the `.proto` or `.xsd` file with the definitions of interface messages, if it resides in the same directory as the `service.json` file. Otherwise, include path to the file in this value. |
 | _sends_ | String Array| The list of names of the supported interface messages defined in the above file, outbound from the service |
 | _receives_ | String Array| The list of names of the supported interface messages defined in the above file, inbound to the service |
@@ -52,16 +52,9 @@ The supported fields in describing an interface version are:
 The developer can define interface messages as either Protocol Buffers or XML Schema Definitions in a file specified in the interface version description's *type* and *location* fields. Either way, the code generator will choose an appropriate compiler and create an implementation for these messages in Java or Python.
 
 An example of the interface message definition is shown below, where an XSD version and a Protocol Buffers version of the same message definition are shown.
-<table>
-<tr>
-  <th> XSD </th>
-  <th> Protocol Buffer </th>
-</tr>
-<tr>
-<td> 
-
-<pre>
-  <code><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+### XML
+```xml
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="urn:books"
             xmlns:bks="urn:books">
 
@@ -87,12 +80,12 @@ An example of the interface message definition is shown below, where an XSD vers
     </xsd:sequence>
     <xsd:attribute name="id"   type="xsd:string"/>
   </xsd:complexType>
-</xsd:schema></code>
-</pre>
-</td>
-<td>
-<pre>
-  <code>message Book {
+</xsd:schema>
+```
+
+### Protobuf
+```protobuf
+message Book {
   required string id = 1;
   required string author = 2; 
   required string title = 3; 
@@ -104,24 +97,14 @@ An example of the interface message definition is shown below, where an XSD vers
 
 message Books {
   optional repeated Book books = 1;
-}</code>
-</pre>
+}
+```
 
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<center>
+## Step 3: Code generation
 
-Table 1: Comparison of an example `Books` message implemented in XSD and Protocol Buffer
+With a correct Service Description, the dEF-Pi code generation tools are able to create the basic structure of the service. This includes code for the interfaces described in the Service Description, creating a compilable code base in which only the interfaces have to be implemented.
 
-</center>
-</td>
-</table>
+Depending on the programming language to use for the service go to:
 
-Once the interface message is also defined, running the `create-service` maven plugin to generate the service stub also generates the interface messages, Connection Handler interface and the Connection Handler implementation stub. Bear in mind that running the plugin again over an implementation stub will overwrite any code that the developer wrote to extend the stub.
-
-> _**Under the hood:**_ <br>
-_The Connection Handler Java Interface is annotated with information about the messaging interface (defined by the developer in the service description). The service library uses this information to establish an matching connection and deliver the correct messages to a running process._
-
-
+* [Java Tutorial](java-tutorial.md)
+* [Python Tutorial](python-tutorial.md)
