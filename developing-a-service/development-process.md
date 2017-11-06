@@ -1,27 +1,10 @@
 # Development process
 
-## Connections
+Developing a service for dEF-Pi in either Java or Python share a common way of describing a the service, containing information on the interfaces a service describes. On this page the common parts of developing a service. The implementation of services can be found on either the [Java](java-tutorial.md) or the [Python](python-tutorial.md) page.
 
-### Introduction
+## Step 1: Interface Definition
 
-Connections between two processes allow them to communicate prescribed messages between them. Such connections are only possible between either processes in the same public nodepool, or processes hosted on the same private node. It is not possible to connect a process on a private node with another in a public node.
-
-<center>
-<table class="image">
-	<caption align="bottom" style="font-size: 80%;">Pic1: Permissible Connections</caption>
-	<tr>
-		<td>
-			<img src="./img/Picture1.png" alt="Permissible Connections" style="width: 500px;"/>
-		</td>
-	</tr>
-</table>
-</center>
-
-Connections between **RUNNING** processes are initiated by the orchestrator using either its REST interface or through its Connections UI page. Similar to a process, a connection also has a handler which the application developer is free to implement to react to various connection events as per the application's requirement. The various steps involved in establishing a connection between two processes are as follows.
-
-### Step 1: Interface Definition
-
-Creating a connection between processes begins with describing an interface in the respective processes' Service Descriptions (`service.json`).
+Creating a service begins with describing interfaces in the Service Descriptions (`service.json`).
 
 ```json
 {
@@ -47,6 +30,7 @@ Creating a connection between processes begins with describing an interface in t
 ```
 
 The supported fields in describing an interface are:
+
 | Field | Values | Description |
 |:---:|:---:|---|
 | _name_ | String | The name of the interface |
@@ -55,6 +39,7 @@ The supported fields in describing an interface are:
 | _interfaceVersions_ | JSON Array | Collection of interface versions supported by this service. |
 
 The supported fields in describing an interface version are:
+
 | Field | Values | Description |
 |:---:|:---:|---|
 | _versionName_ | String | The version descriptor of the interface |
@@ -63,9 +48,10 @@ The supported fields in describing an interface version are:
 | _sends_ | String Array| The list of names of the supported interface messages defined in the above file, outbound from the service |
 | _receives_ | String Array| The list of names of the supported interface messages defined in the above file, inbound to the service |
 
-### Step 2: Interface Message Definition
+## Step 2: Interface Message Definition
 The developer can define interface messages as either Protocol Buffers or XML Schema Definitions in a file specified in the interface version description's *type* and *location* fields. Either way, the code generator will choose an appropriate compiler and create an implementation for these messages in Java or Python.
 
+An example of the interface message definition is shown below, where an XSD version and a Protocol Buffers version of the same message definition are shown.
 <table>
 <tr>
   <th> XSD </th>
@@ -74,8 +60,8 @@ The developer can define interface messages as either Protocol Buffers or XML Sc
 <tr>
 <td> 
 
-```xml
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<pre>
+  <code><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             targetNamespace="urn:books"
             xmlns:bks="urn:books">
 
@@ -101,27 +87,25 @@ The developer can define interface messages as either Protocol Buffers or XML Sc
     </xsd:sequence>
     <xsd:attribute name="id"   type="xsd:string"/>
   </xsd:complexType>
-</xsd:schema>
-```
-
+</xsd:schema></code>
+</pre>
 </td>
 <td>
-
-```protobuf
-message Book {
-	required string id = 1;
-	required string author = 2; 
-	required string title = 3; 
-	required string genre = 4; 
-	required string price = 5; 
-	required string pub_date = 6; 
-	required string review = 7; 
+<pre>
+  <code>message Book {
+  required string id = 1;
+  required string author = 2; 
+  required string title = 3; 
+  required string genre = 4; 
+  required string price = 5; 
+  required string pub_date = 6; 
+  required string review = 7; 
 }
 
 message Books {
-	optional repeated Book books = 1;
-}
-```
+  optional repeated Book books = 1;
+}</code>
+</pre>
 
 </td>
 </tr>
