@@ -8,18 +8,27 @@ Creating a service begins with describing interfaces in the Service Descriptions
 
 ```json
 {
-  "name": "My First Service",
-  "version": "1",
+  "name": "Echo Service",
+  "version": "0.0.1-SNAPSHOT",
+  "parameters": [
+    {
+      "id": "interval",
+      "name": "interval",
+      "type": "integer",
+      "values": ["1", "2", "more"],
+      "default": "2"
+    }
+  ],
   "interfaces": [
     {
-      "name": "Message Interface",
+      "name": "Echo Interface",
       "autoConnect": false,
-      "allowMultiple": true,
+      "allowMultiple": false,
       "interfaceVersions": [
         {
-          "versionName": "1",
+          "versionName": "v0.0.1",
           "type": "proto",
-          "location": "myMessagingProtocol.proto",
+          "location": "https://pastebin.com/raw/FyBHi5KA",
           "sends": ["Msg"],
           "receives": ["Msg"]
         }
@@ -27,26 +36,51 @@ Creating a service begins with describing interfaces in the Service Descriptions
     }
   ]
 }
+
 ```
+
+The supported fields for services are:
+
+| Field | Values | Description |
+|:---:|:---:|---|
+| _name_ | String \(required\) | The name of the service |
+| _version_ | String \(required\) | The version descriptor of the service |
+| _parameters_ | JSON Array | Parameters that can be set when instantiating a service |
+| _interfaces_ | JSON Array | Collection of interfaces supported by this service |
+
+
+The supported field for parameters are:
+
+| Fields | Values | Description |
+|:---:|:---:|---|
+| _id_ | String \(required\) | The identifier of the parameter, starting with a lowercase letter and containing only letters and numbers |
+| _name_ | String \(required\) | The name of the parameter | 
+| _type_ | Enum \(required\) | The type of the paramer, with the following options: `boolean`, `byte`, `character`, `short`, `integer`, `long`, `float`, `double`, `string`. |
+| _isArray_ | Boolean | Is the parameter an array? |
+| _isOptional | Boolean | Is the parameter optional? |
+| _values_ | String Array | The allowed values of the parameter. |
+| _labels_ | String Array | The labels for the allowed values of the parameter. |
+
+
 
 The supported fields in describing an interface are:
 
 | Field | Values | Description |
 |:---:|:---:|---|
-| _name_ | String | The name of the interface |
-| _autoConnect_ | Boolean | Connect automatically to mirror interfaces? |
-| _allowMultiple_ | Boolean | Permit more than one connections to connect to this interface? |
+| _name_ | String \(required\) | The name of the interface |
+| _autoConnect_ | Boolean \(required\) | Connect automatically to mirror interfaces? |
+| _allowMultiple_ | Boolean \(required\) | Permit more than one connections to connect to this interface? |
 | _interfaceVersions_ | JSON Array | Collection of interface versions supported by this service. |
 
 The supported fields in describing an interface version are:
 
 | Field | Values | Description |
 |:---:|:---:|---|
-| _versionName_ | String | The version descriptor of the interface |
-| _type_ | String (`proto` \| `xsd`) | The format in which the interface messages are defined - As [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) or as [XML Schema Definition](https://www.w3schools.com/xml/schema_intro.asp)|
-| _location_ | String | The name of the `.proto` or `.xsd` file with the definitions of interface messages, if it resides in the same directory as the `service.json` file. Otherwise, include path to the file in this value. |
-| _sends_ | String Array| The list of names of the supported interface messages defined in the above file, outbound from the service |
-| _receives_ | String Array| The list of names of the supported interface messages defined in the above file, inbound to the service |
+| _versionName_ | String \(required\) | The version descriptor of the interface |
+| _type_ | String (`proto` &#124; `xsd`) \(required\) | The format in which the interface messages are defined - As [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) or as [XML Schema Definition](https://www.w3schools.com/xml/schema_intro.asp)|
+| _location_ | String \(required\) | The name of the `.proto` or `.xsd` file with the definitions of interface messages, if it resides in the same directory as the `service.json` file. Otherwise, include the full path to the file in this value. |
+| _sends_ | String Array \(required\) | The list of names of the supported interface messages defined in the above file, outbound from the service |
+| _receives_ | String Array \(required\)| The list of names of the supported interface messages defined in the above file, inbound to the service |
 
 ## Step 2: Interface Message Definition
 The developer can define interface messages as either Protocol Buffers or XML Schema Definitions in a file specified in the interface version description's *type* and *location* fields. Either way, the code generator will choose an appropriate compiler and create an implementation for these messages in Java or Python.
