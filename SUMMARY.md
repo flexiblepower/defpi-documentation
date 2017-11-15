@@ -1,6 +1,8 @@
 # Summary
 
 * [Introduction](README.md)
+  * [Energy Flexibility](introduction/energy-flexibility.md)
+  * [EFI](introduction/efi.md)
 * [Architecture](architecture.md)
   * [Orchestrator](architecture/orchestrator.md)
   * [Services, processes, and connections](architecture/services-processes-and-connections.md)
