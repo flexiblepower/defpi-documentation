@@ -2,6 +2,8 @@
 
 The code generator for a Java service uses a Maven plugin that is setup in the `service-parent` artifact of the `org.flexiblepower.defpi` group. For this tutorial the `service.json` of [Development process](development-process.md) is used. 
 
+This tutorial is based on the [tutorial repository](https://github.com/flexiblepower/defpi-tutorial). In the steps the simple universal dimmer will be discussed, this service will curtail a simulated light via EFI.
+
 ## Step 1: Project layout
 
 The structure of the project must be as follows:
@@ -16,7 +18,7 @@ The structure of the project must be as follows:
 
 The service description has to be placed in `src/main/resources`, which is also the relative path for local XSD or Protocol Buffer files.
 
-The pom.xml file contains the maven description for the project, which inherits from the `service-parent` project.
+The pom.xml file contains the maven description for the project, which inherits from the `service-parent` project. To be able to push the service to a registry, the `docker.registry` property should be set to a Docker registry you are able to push Docker images to. Following the tutorial on [Running dEF-Pi on a local Linux machine](getting-def-pi-up-and-running/running-def-pi-on-linux.md) the local hosted registry that was deployed is used.
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -29,8 +31,12 @@ The pom.xml file contains the maven description for the project, which inherits 
     <version>0.2.7-SNAPSHOT</version>
   </parent>
 
-  <artifactId>echo-skeleton</artifactId>
+  <artifactId>universal-dimmer</artifactId>
   <version>0.0.1</version>
+
+  <properties>
+    <docker.registry>localhost:5000</docker.registry>
+  </properties>
 </project>
 ```
 
@@ -52,12 +58,12 @@ The maven plugin will then create the following project structure:
 │       │   └── org
 │       │       └── flexiblepower
 │       │           └── defpi
-│       │               └── echoskeleton
-│       │                   ├── echo_interface
-│       │                   │   ├── EchoInterfaceConnectionManagerImpl.java
-│       │                   │   └── v001
-│       │                   │       └── EchoInterface_v001ConnectionHandlerImpl.java
-│       │                   └── EchoService.java
+│       │               └── universaldimmer
+│       │                   ├── inflexible_controller
+│       │                   │   ├── efi_20
+│       │                   │   │   └── InflexibleController_efi20ConnectionHandlerImpl.java
+│       │                   │   └── InflexibleControllerConnectionManagerImpl.java
+│       │                   └── UniversalDimmer.java
 │       └── resources
 │           ├── defpi-resources
 │           └── service.json
@@ -68,29 +74,31 @@ The maven plugin will then create the following project structure:
     │       │   └── Dockerfile
     │       ├── docker-arm
     │       │   └── Dockerfile
-    │       └── proto
-    │           └── EchoInterface_v001.proto
+    │       └── xsd
+    │           └── InflexibleController_efi20.xsd
     └── generated-sources
-        └── java
-            └── org
-                └── flexiblepower
-                    └── defpi
-                        └── echoskeleton
-                            ├── echo_interface
-                            │   ├── EchoInterfaceConnectionManager.java
-                            │   └── v001
-                            │       ├── EchoInterface_v001ConnectionHandler.java
-                            │       └── proto
-                            │           └── EchoInterface_v001Proto.java
-                            └── EchoServiceConfiguration.java
-
+        └── java
+            └── org
+                └── flexiblepower
+                    └── defpi
+                        └── universaldimmer
+                            └── inflexible_controller
+                                ├── efi_20
+                                │   ├── InflexibleController_efi20ConnectionHandler.java
+                                │   └── xml
+                                │       ├── ActuatorBehaviour.java
+                                │       ├── ...
+                                │       └── Transitions.java
+                                └── InflexibleControllerConnectionManager.java
 ```
 
 In `src/main/java` the stubs for implementing the connection managers and the connection handlers are placed. 
 
 The files placed in the `target` folder are generated files that should not be altered by service developers. Containing the `Dockerfile`s and the XSD or Protocol Buffer files, but also the Java interfaces and the XSD or Protocol Buffer bindings for Java.
 
-Once the interface message is also defined, running the `create-service` maven plugin to generate the service stub also generates the interface messages, Connection Handler interface and the Connection Handler implementation stub. Bear in mind that running the plugin again over an implementation stub will overwrite any code that the developer wrote to extend the stub.
+> NOTE: Make sure when importing a dEF-Pi service in an IDE to add the `target/generated-sources` folder as \(generated-\)sources folder. This ensures the IDE knows it has to include the sources in this file.
+
+Once the interface message is also defined, running the `maven-plugin` maven plugin to generate the service stub also generates the interface messages, Connection Handler interface and the Connection Handler implementation stub. Bear in mind that running the plugin again will overwrite all files in the `target/generated-sources` folder, the stubs are only regenerated if the class was not implemented already.
 
 ## Step 3: Extending the stub
 
@@ -98,7 +106,7 @@ Two kind of stubs are generated for implementing a service: the service implemen
 
 ### Step 3.1: Service
 
-One service implementation stub is generated per service, for the service.json used in the previous step this is `src/main/java/org/flexibilepower/defpi/echoskeleton/EchoService.java`.
+One service implementation stub is generated per service, for the service.json used in the previous step this is `src/main/java/org/flexibilepower/defpi/universaldimmer/UniversalDimmer.java`.
 
 The methods in this stub are the following:
 
@@ -127,6 +135,8 @@ This method should provide all state related variables in a Serializable object,
 public void terminate()
 ```
 This method is called when the orchestrator indicates that the process should terminate, allowing the process to terminate safely.
+
+The Universal Dimmer is a very simple example, and does not require a configuration and does not have a state to be saved. So the all the stubs in this case remain empty methods.
 
 ### Step 3.2: ConnectionHandlers
 
@@ -166,6 +176,49 @@ public void terminated()
 ```
 Upon interruption, either the service library or the orchestrator attempts to resume the connection at a future time. This method is then invoked.
 
+For the Universal Dimmer, only the methods for handling messages are implemented, as there are no extra logic is needed for managing the connection.
+
+The messages that are handled are EFI messages, especially the `InflexibleCurtailmentOptions` message. In this case the dimmer receives the curtailment options of a simulated light, and will create an instruction to curtail the light to the lower bound of the curtailment option.
+
+```java
+@Override
+public void handleInflexibleRegistrationMessage(final InflexibleRegistration message) {
+    System.out.println("Received registration of " + message.getDeviceDescription().getLabel());
+}
+
+@Override
+public void handleMeasurementMessage(final Measurement message) {
+    System.out.println("Measurement value received: " + message.getElectricityMeasurement().getPower());
+}
+
+@Override
+public void handleInflexibleCurtailmentOptionsMessage(final InflexibleCurtailmentOptions message) {
+    try {
+        final double minimalPower = message.getCurtailmentOptions()
+                .getCurtailmentOption()
+                .get(0)
+                .getCurtailmentRange()
+                .get(0)
+                .getLowerBound();
+
+        final CurtailmentProfileElement curtailMent = new CurtailmentProfileElement().withValue(minimalPower)
+                .withDuration(DatatypeFactory.newInstance().newDuration(Duration.ofDays(1).toMillis()));
+
+        final CurtailmentProfile profile = new CurtailmentProfile().withStartTime(message.getValidFrom())
+                .withCurtailmentQuantity(CurtailmentQuantity.ELECTRICITY_POWER)
+                .withCurtailmentProfileElement(curtailMent);
+
+        final InflexibleInstruction instruction = new InflexibleInstruction().withEfiVersion("2.0")
+                .withInstructionId(UUID.randomUUID().toString())
+                .withCurtailmentProfile(profile);
+
+        this.connection.send(instruction);
+    } catch (final DatatypeConfigurationException e) {
+        throw new RuntimeException(e.getMessage());
+    }
+}
+```
+
 ## Step 4: Packaging & deploying
 
 A fat JAR is created using the maven-assembly-pluing to make sure all dependencies are available in one JAR file. The docker-maven-plugin from Spotify is used to actually build and push the image. 
@@ -181,5 +234,3 @@ The docker images can then be pushed to the registry by executing
 ```bash
 mvn deploy
 ```
-
-\(TODO: specify the docker repository\)

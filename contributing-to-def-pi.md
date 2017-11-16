@@ -2,7 +2,7 @@
 
 If you'd like to improve the code of dEF-Pi, we would love to have your contribution.
 
-All of the code for dEF-Pi is available in the [git repository](https://ci.tno.nl/gitlab/FAN/def-pi).
+All of the code for dEF-Pi is available in the [git repository](https://github.com/flexiblepower/defpi-core).
 
 The main language in which dEF-Pi is developed is Java, from version 8 and upwards. 
 

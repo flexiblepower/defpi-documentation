@@ -1,6 +1,6 @@
 # Build and deploy tools
 
-The dEF-Pi project provides build and deploy tools for developers to easily create new services compatible with the dEF-Pi environment. By specifying requirements of a service in a simple JSON notation, code can be generated for both Java and Python. This relieves developers from worrying about the dEF-Pi specific code and keeps focus on the implementation of the logic for the interfaces.
+The dEF-Pi project provides build and deploy tools for developers to easily create new services compatible with the dEF-Pi environment. By specifying requirements of a service in a simple JSON notation, code can be generated for Java. This relieves developers from worrying about the dEF-Pi specific code and keeps focus on the implementation of the logic for the interfaces.
 
 An example of such service description is as follows:
 ```JSON

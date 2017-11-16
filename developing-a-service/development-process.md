@@ -1,36 +1,33 @@
 # Development process
 
-Developing a service for dEF-Pi in either Java or Python share a common way of describing a the service, containing information on the interfaces a service describes. On this page the common parts of developing a service. The implementation of services can be found on either the [Java](java-tutorial.md) or the [Python](python-tutorial.md) page.
+Developing services for dEF-Pi share a common way of describing a the service, containing information on the interfaces a service describes. On this page the common parts of developing a service are discussed in tutorial format. At this moment there is support for implementing services in [Java](java-tutorial.md), the supported languages will be extended in the future.
 
 ## Step 1: Interface Definition
 
-Creating a service begins with describing interfaces in the Service Descriptions (`service.json`).
+Creating a service begins with describing interfaces in the Service Descriptions (`service.json`). 
 
 ```json
 {
-  "name": "Echo Service",
-  "version": "0.0.1-SNAPSHOT",
-  "parameters": [
-    {
-      "id": "interval",
-      "name": "interval",
-      "type": "integer",
-      "values": ["1", "2", "more"],
-      "default": "2"
-    }
-  ],
+  "name": "Universal Dimmer",
+  "version": "2017",
   "interfaces": [
     {
-      "name": "Echo Interface",
-      "autoConnect": false,
-      "allowMultiple": false,
+      "name": "Inflexible Controller",
+      "autoConnect": true,
+      "allowMultiple": true,
       "interfaceVersions": [
         {
-          "versionName": "v0.0.1",
-          "type": "proto",
-          "location": "https://pastebin.com/raw/FyBHi5KA",
-          "sends": ["Msg"],
-          "receives": ["Msg"]
+          "versionName": "efi 2.0",
+          "type": "xsd",
+          "location": "https://raw.githubusercontent.com/flexiblepower/efi/master/schema/efi-2.0.xsd",
+          "receives": [
+            "InflexibleRegistration",
+            "InflexibleCurtailmentOptions",
+            "Measurement"
+          ],
+          "sends": [
+            "InflexibleInstruction"
+          ]
         }
       ]
     }
@@ -82,7 +79,7 @@ The supported fields in describing an interface version are:
 | _receives_ | String Array \(required\)| The list of names of the supported interface messages defined in the above file, inbound to the service |
 
 ## Step 2: Interface Message Definition
-The developer can define interface messages as either Protocol Buffers or XML Schema Definitions in a file specified in the interface version description's *type* and *location* fields. Either way, the code generator will choose an appropriate compiler and create an implementation for these messages in Java or Python.
+The developer can define interface messages as either Protocol Buffers or XML Schema Definitions in a file specified in the interface version description's *type* and *location* fields. Either way, the code generator will choose an appropriate compiler and create an implementation for these messages.
 
 An example of the interface message definition is shown below, where an XSD version and a Protocol Buffers version of the same message definition are shown.
 ### XML
@@ -140,4 +137,3 @@ With a correct Service Description, the dEF-Pi code generation tools are able to
 Depending on the programming language to use for the service go to:
 
 * [Java Tutorial](java-tutorial.md)
-* [Python Tutorial](python-tutorial.md)

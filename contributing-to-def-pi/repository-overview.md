@@ -34,7 +34,7 @@ The packages used in the API project are:
 The Commons project contains code shared accross multiple sub-projects. The shared code focuses on the communication and serialization of messages between the orchestrator and processes.
 
 ## Codegen-common
-The Codegen Commons project contains the shared code for the Java and Python code generation projects. Providing the parsing of Service Descriptions (``service.json``) and a template engine.
+The Codegen Commons project contains the shared code for the code generators, at this moment only the Java maven plugin. Providing the parsing of Service Descriptions (``service.json``) and a template engine.
 
 ## Defpi-maven-plugin
 This maven plugin facilitates developers of dEF-Pi components. It does so by providing code that manages dEF-Pi connections and handles messages that are sent and received.

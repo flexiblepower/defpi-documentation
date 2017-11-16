@@ -53,16 +53,10 @@ The Orchestrator project contains the implementation of the Orchestrator, capabl
 
 Contains the Service library that is used for the Java implementations of _Services_. This library handles the communication with the Orchestrator and other processes a process has connections with.
 
-\(TODO: structure of Service library \)
-
 ## Codegen commons
 
-The Codegen commons project contains shared code between the codegen project for Java and Python. This includes the parsing of a Service Description \(`service.json`\) and a template parser.
+The Codegen commons project contains shared code between for the code generators, at this moment only for the Java maven plugin. This includes the parsing of a Service Description \(`service.json`\) and a template parser.
 
 ## Maven Java plugin
 
 The Maven Java plugin contains the maven MOJO \(Maven plain Old Java Object\), which is the executable `defpi:generate` goal used to generate the Java code for a service. 
-
-## Python codegen
-
-\(TODO: impl\)
