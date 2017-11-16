@@ -23,62 +23,6 @@ To initialize Docker Swarm mode execute:
 docker swarm init
 ```
 
-## Step 4: Deploy a private Docker registry
-
-
-
-
-
-The dEF-Pi environment needs a registry to store services on. In this example, we deploy a private registry that will be available for all nodes in the Docker Swarm.
-
-First we need to create certificates, in order to setup secure connections to the registry:
-
-```
-openssl req -newkey rsa:4096 -nodes -sha256   -keyout domain.key -x509 -days 365   -out domain.crt
-```
-
-The certificate will be stored in Docker secrets, so that the certificates are available for all nodes in the Docker Swarm.
-
-```
-docker secret create domain.crt domain.crt
-docker secret create domain.key domain.key
-```
-
-Next, the Docker service containing the registry will be created. Using the default port 5000.
-
-```
-docker service create   \
-	--name registry \
-	--secret domain.crt \
-	--secret domain.key \
-	-e REGISTRY_HTTP_TLS_CERTIFICATE=/run/secrets/domain.crt \
-	-e REGISTRY_HTTP_TLS_KEY=/run/secrets/domain.key \
-	-p 5000:5000 \
-	--replicas 1 \
-	registry:2
-```
-
-Now all nodes can access the registry by using `localhost:5000` using the [Docker Swarm routing mesh](https://docs.docker.com/engine/swarm/services/#publish-a-services-ports-using-the-routing-mesh).
-
-## Step 5: Deploy the tutorial services to the Docker registry
-
-```
-export HOSTNAME=$(hostname --ip-address)
-```
-
-```
-docker-compose up
-```
-
-```
-mvn -f light-simulator/pom.xml -Ddocker.registry=$HOSTNAME:5000 deploy
-mvn -f universal-dimmer/pom.xml -Ddocker.registry=$HOSTNAME:5000 deploy
-```
-
-```
-docker-compose up
-```
-
 ## Step 5: Deploy local dEF-Pi environment
 
 To deploy the local dEF-Pi environment a docker-compose file is provided, containing the following components: the orchestrator, the web-based user-interface, and a MongoDB instance. 

@@ -5,37 +5,33 @@ The dEF-Pi project provides build and deploy tools for developers to easily crea
 An example of such service description is as follows:
 ```JSON
 {
-  "name": "Echo Service",
-  "version": "0.0.1-SNAPSHOT",
-  "parameters": [
-  	{
-  	  "id": "interval",
-  	  "name": "interval",
-  	  "type": "integer",
-  	  "values": ["1", "2", "more"],
-  	  "default": "2"
-  	}
-  ],
+  "name": "Universal Dimmer",
+  "version": "2017",
   "interfaces": [
     {
-      "name": "Echo Interface",
-      "autoConnect": false,
-      "allowMultiple": false,
+      "name": "Inflexible Controller",
+      "autoConnect": true,
+      "allowMultiple": true,
       "interfaceVersions": [
         {
-          "versionName": "v0.0.1",
-          "type": "proto",
-          "location": "https://pastebin.com/raw/FyBHi5KA",
-          "sends": ["Msg"],
-          "receives": ["Msg"]
+          "versionName": "efi 2.0",
+          "type": "xsd",
+          "location": "https://raw.githubusercontent.com/flexiblepower/efi/master/schema/efi-2.0.xsd",
+          "receives": [
+            "InflexibleRegistration",
+            "InflexibleCurtailmentOptions",
+            "Measurement"
+          ],
+          "sends": [
+            "InflexibleInstruction"
+          ]
         }
       ]
     }
   ]
 }
-
 ```
 
-This describes a simple echo service that uses the interface described by the contents of the Protocol Buffer [file](https://pastebin.com/raw/FyBHi5KA). In [Developing a Service](../developing-a-service.md) the complete explaination can be found on how to use the service description.
+This describes a universal dimmer that is able to curtail devices via the EFI protocol. In [Developing a Service](../developing-a-service.md) the complete explaination can be found on how to use the service description.
 
 Besides the code generation, dEF-Pi also provides deploy tools to easily deploy a test environment via docker-compose. Making sure that all dependencies are deployed and configured correctly. More information on the deploy tools can be found in [Getting dEF-Pi up and running](../getting-def-pi-up-and-running.md). 

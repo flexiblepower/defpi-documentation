@@ -31,7 +31,7 @@ A quick overview of the managers and connectors in the orchestrator is as follow
 
 | Component 			| Description |
 | --- 					| --- |
-| REST API 				| Provides an interface to communicate with the orchestrator, via the web-based user interface. \(TODO: add reference to swagger documentation\) |
+| REST API 				| Provides an interface to communicate with the orchestrator, via the web-based user interface. |
 | Process Manager 		| Manages the processes in the environment. Responsible for listing, creating, updating, moving, and deleting processes. |
 | Connection Manager 	| Manages connections between interfaces of processes. Responsible for listing, creating, and terminating connections. |
 | User Manager 			| Provides authentication of users of the orchestrator environment.  |
