@@ -10,10 +10,6 @@ The goal of dEF-Pi is to provide a runtime environment that makes it possible to
 
 Build tools assist developers in creating services for the platform. By describe interfaces in a declarative way, the build tools are able to generate the skeleton of a service. This way the developer can focus solely on the implementation of the logical part of the service.
 
-## Typical use-cases
-
-\(TODO: heerhugowaard\)
-
 ## About the FAN
 
 The Flexiblepower Alliance Network \(FAN\) is a network of companies and institutions that jointly develop and manage the international FAN standard. FAN is a new open standard that connects \(household\) devices with energy management services. FAN gives users control over the energy consumption in their house or building.
