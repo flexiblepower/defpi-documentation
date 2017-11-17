@@ -39,5 +39,19 @@ Now a light-simulator can be created in the same way, but now choosing the _ligh
 
 If all goes well, the process list will now show the two created services.
 
-## Create connections
+As the interfaces handling EFI are configured to automatically connect, a new connection should appear on the [connection page](http://localhost:84/#/connection/list).
 
+Looking at the logs of the universal dimmer:
+```
+docker logs -f $(docker ps | awk '/universal-dimmer/{print $1}')
+```
+
+You should see something similar to:
+```
+Received registration of Light Simulator
+Measurement value received: 40.0
+Measurement value received: 0.0
+Measurement value received: 0.0
+```
+
+Indicating that universal dimmer received the `InflexibleRegistration` EFI message, and continously receives new `Measurements`.
