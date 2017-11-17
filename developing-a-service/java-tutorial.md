@@ -28,7 +28,7 @@ The pom.xml file contains the maven description for the project, which inherits 
   <parent>
     <groupId>org.flexiblepower.defpi</groupId>
     <artifactId>service-parent</artifactId>
-    <version>0.2.7-SNAPSHOT</version>
+    <version>17.11</version>
   </parent>
 
   <artifactId>universal-dimmer</artifactId>
@@ -230,7 +230,10 @@ mvn package
 
 the FAT jar is created and the docker images are build.
 
-The docker images can then be pushed to the registry by executing
+The docker images can then be pushed to the registry by executing the `mvn deploy`, via the `docker.registry` property in the pom file or by using `-Ddocker.registry=REGISTRY_URL` the Docker registry that should be used for the deployment can be set. 
+
+For example:
+
 ```bash
-mvn deploy
+mvn deploy -Ddocker.registry=localhost:5000
 ```
