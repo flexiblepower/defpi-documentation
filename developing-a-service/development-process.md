@@ -53,7 +53,7 @@ The supported field for parameters are:
 | _name_ | String \(required\) | The name of the parameter | 
 | _type_ | Enum \(required\) | The type of the paramer, with the following options: `boolean`, `byte`, `character`, `short`, `integer`, `long`, `float`, `double`, `string`. |
 | _isArray_ | Boolean | Is the parameter an array? |
-| _isOptional | Boolean | Is the parameter optional? |
+| _isOptional_ | Boolean | Is the parameter optional? |
 | _values_ | String Array | The allowed values of the parameter. |
 | _labels_ | String Array | The labels for the allowed values of the parameter. |
 
