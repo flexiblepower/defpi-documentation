@@ -3,7 +3,7 @@
     "plugins": ["edit-link", "image-captions"],
     "pluginsConfig": {
         "edit-link": {
-            "base": "https://ci.tno.nl/gitlab/FAN/def-pi-documentation/blob/master/",
+            "base": "https://github.com/flexiblepower/defpi-documentation/edit/master/",
             "label": "Edit This Page"
          },
          "image-captions": {

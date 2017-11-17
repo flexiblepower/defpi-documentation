@@ -227,7 +227,6 @@ By executing
 ```bash
 mvn package
 ```
-
 the FAT jar is created and the docker images are build.
 
 The docker images can then be pushed to the registry by executing the `mvn deploy`, via the `docker.registry` property in the pom file or by using `-Ddocker.registry=REGISTRY_URL` the Docker registry that should be used for the deployment can be set. 
