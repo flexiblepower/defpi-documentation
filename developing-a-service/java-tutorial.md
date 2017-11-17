@@ -26,7 +26,7 @@ The pom.xml file contains the maven description for the project, which inherits 
   <parent>
     <groupId>org.flexiblepower.defpi</groupId>
     <artifactId>service-parent</artifactId>
-    <version>0.2.7-SNAPSHOT</version>
+    <version>17.11</version>
   </parent>
 
   <artifactId>echo-skeleton</artifactId>
