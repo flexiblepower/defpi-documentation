@@ -4,17 +4,11 @@ For the demo environment, two services are used that are available at [dEF-Pi tu
 
 ## Deploy services
 
-If you followed the tutorial on how to get dEF-Pi running on Linux. The `HOSTNAME` environment variable is still present and contains the IP address of your machine. If this environment variable is not present run and you are running the registry on the same machine:
+We can push the tutorial services to the local running registry by running the following command in the defpi-tutorial folder:
 
 ```
-export HOSTNAME=$(hostname --ip-address)
-```
-
-Then we can deploy the tutorial services to the registry by running the following command in the defpi-tutorial folder:
-
-```
-mvn -f light-simulator/pom.xml -Ddocker.registry=$HOSTNAME:5000 deploy
-mvn -f universal-dimmer/pom.xml -Ddocker.registry=$HOSTNAME:5000 deploy
+mvn -f light-simulator/pom.xml deploy
+mvn -f universal-dimmer/pom.xml deploy
 ```
 
 After this is done, the services should appear in the orchestrator UI on the [services page](http://localhost:84/#/service/list).
