@@ -31,27 +31,7 @@ The purpose of the docker-compose script is to setup a local test environment. F
 
 The docker-compose file for the local environment is located in the root of [dEF-Pi tutorial repository](https://github.com/flexiblepower/defpi-tutorial).
 
-For deploying the local environment, we first need to follow some steps in order to have the Docker registry working properly.
-
-First export the IP address of the host:
-```
-export HOSTNAME=$(hostname --ip-address)
-```
-
-Now add the address for the local registry to the docker /etc/docker/daemon.json file. In the case the file does not exist yet, execute:
-```
-echo "{\"insecure-registries\":[\"$HOSTNAME:5000\"]}" > /etc/docker/daemon.json
-```
-
-Otherwise, edit the existing daemon.json file such that it contains the insecure registry entry with the same IP address as the `HOSTNAME` environment variable.
-
-Then restart the Docker service in order to apply the changes.
-
-```
-sudo service docker restart
-```
-
-Now the docker-compose script can be run in the defpi-tutorial folder:
+As long as the docker registry is run at localhost, as is set in the compose file, the docker-compose script can be run in the defpi-tutorial folder:
 
 ```
 docker-compose up
