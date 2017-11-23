@@ -17,5 +17,7 @@ The Flexiblepower Alliance Network \(FAN\) is a network of companies and institu
 FAN can be built into devices and energy management services of diverse manufacturers. Thanks to FAN, they can work together as a team – to decide whether to use, store or sell locally produced energy, for instance, or to determine which device should be switched on first. Controlling the energy services on  a smart phone or tablet, users can set the energy preferences, ensuring that devices are turned on, off or down whenever they want. FAN makes it easy to use renewable energy and will mean significant savings on your energy bill.  
 [www.flexiblepower.org](http://www.flexiblepower.org)
 
+## GitBook
 
+There is a gitbook version of this documentation available [here](https://fan-ci.sensorlab.tno.nl/builds/defpi-documentation/master/html/).
 
