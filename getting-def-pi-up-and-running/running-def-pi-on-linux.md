@@ -23,7 +23,7 @@ To initialize Docker Swarm mode execute:
 docker swarm init
 ```
 
-## Step 5: Deploy local dEF-Pi environment
+## Step 4: Deploy local dEF-Pi environment
 
 To deploy the local dEF-Pi environment a docker-compose file is provided, containing the following components: the orchestrator, the web-based user-interface, and a MongoDB instance. 
 
