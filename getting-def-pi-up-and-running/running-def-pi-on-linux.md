@@ -57,7 +57,7 @@ Now the docker-compose script can be run in the defpi-tutorial folder:
 docker-compose up
 ```
 
-Now the web-based interface is accessible at [http://localhost:84/](http://localhost:84/)
+Now the web-based interface is accessible at [http://localhost:84/](http://localhost:84/). By default a user will be created with the name *admin* and password *admin*.
 
 ## Step 5: Categorize unidentified nodes
 
